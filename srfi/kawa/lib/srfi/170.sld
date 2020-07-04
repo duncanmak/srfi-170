@@ -1,9 +1,15 @@
 ;; please see copyright notice in 170/COPYING
 
 (define-library (srfi 170)
-  (import (class java.util EnumSet)
-          (class java.nio.file Files Path Paths)
-          (class java.nio.file.attribute FileAttribute PosixFilePermission)
+  (import (srfi 9)
+          (class java.util EnumSet Iterator)
+          (class java.nio.file DirectoryStream DirectoryStream$Filter Files Path Paths)
+          (class java.nio.file.attribute
+                 BasicFileAttributeView
+                 FileAttribute
+                 PosixFileAttributeView
+                 PosixFilePermission
+                 PosixFilePermissions)
           (class java.nio.channels FileChannel))
   (export
 
