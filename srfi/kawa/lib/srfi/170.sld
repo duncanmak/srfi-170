@@ -1,7 +1,9 @@
 ;; please see copyright notice in 170/COPYING
 
 (define-library (srfi 170)
-  (import (srfi 9)
+  (import (kawa base)
+          (srfi 9)
+          (class java.lang ProcessHandle)
           (class java.util EnumSet Iterator)
           (class java.nio.file DirectoryStream DirectoryStream$Filter Files Path Paths)
           (class java.nio.file.attribute

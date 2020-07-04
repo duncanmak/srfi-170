@@ -122,3 +122,28 @@
       (let ((stream ::DirectoryStream (directory-object:stream dir)))
         (directory-object:set-iterator! dir (stream:iterator))))
     (iterator->list (directory-object:iterator dir) path->string)))
+
+(define (real-path (path ::string))
+  (let ((p ::Path(Paths:get path)))
+    ((p:toRealPath)):toString))
+
+(define temp-file-prefix
+  (make-parameter
+   (let* ((proc ::ProcessHandle (ProcessHandle:current))
+          (pid  ::string (format #f "~A" (proc:pid))))
+     (cond
+      ((get-environment-variable "TMPDIR") => (lambda (tmp) ((Paths:get tmp pid):toString)))
+      (else ((Paths:get "/" "tmp" pid):toString))))))
+
+
+(define (create-temp-file #!optional (prefix ::string #!null))
+  (let* ((proc ::ProcessHandle (ProcessHandle:current))
+         (pid ::string (format #f "~A" (proc:pid))))
+    (Files:createTempFile pid #!null
+                          (PosixFilePermissions:asFileAttribute
+                           (bits->permissions #o600)))))
+
+(define (call-with-temporary-filename maker #!optional prefix)
+  (let loop ((result (maker (create-temp-file prefix))))
+    (if result
+        (loop (maker (create-temp-file prefix))))))
