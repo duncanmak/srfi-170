@@ -13,6 +13,9 @@
     (Files:createDirectory dir perms)
     #!void))
 
+(define (create-fifo (fname ::string) #!optional permission-bits)
+  (raise (UnsupportedOperationException)))
+
 (define (create-hard-link (oldname ::string) (newname ::string))
   (Files:createLink (Paths:get oldname) (Paths:get newname))
   #!void)
@@ -147,3 +150,25 @@
   (let loop ((result (maker (create-temp-file prefix))))
     (if result
         (loop (maker (create-temp-file prefix))))))
+
+
+(define (umask) (raise (UnsupportedOperationException)))
+(define (set-umask! umask) (raise (UnsupportedOperationException)))
+
+(define (current-directory)
+  (((Paths:get ""):toAbsolutePath):toString))
+
+(define (set-current-directory! directory) (raise (UnsupportedOperationException)))
+
+(define (pid) ((ProcessHandle:current):pid))
+
+(define (parent-pid)
+  (let* ((current ::ProcessHandle (ProcessHandle:current))
+         (parent ::Optional  (current:parent)))
+    (if (parent:isPresent)
+        (let ((parent ::ProcessHandle (parent:get))) (parent:pid))
+        -1)))
+
+(define (process-group) (raise (UnsupportedOperationException)))
+
+(define (nice #!optional delta) (raise (UnsupportedOperationException)))

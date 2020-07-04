@@ -3,7 +3,7 @@
 (define-library (srfi 170)
   (import (kawa base)
           (srfi 9)
-          (class java.lang ProcessHandle)
+          (class java.lang ProcessHandle UnsupportedOperationException)
           (class java.util EnumSet Iterator)
           (class java.nio.file DirectoryStream DirectoryStream$Filter Files Path Paths)
           (class java.nio.file.attribute
